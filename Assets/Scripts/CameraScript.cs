@@ -30,7 +30,7 @@ public class CameraScript : MonoBehaviour
 
     private void MoveCamByMouse()
     {
-        transform.RotateAround(transform.position, Vector3.up, Input.GetAxis("Mouse X") * 4f);
+        transform.RotateAround(hero.transform.position, Vector3.up, Input.GetAxis("Mouse X") * 4f);
         transform.RotateAround(hero.transform.position, Vector3.left, Input.GetAxis("Mouse Y") * 4f);
         transform.LookAt(hero.transform);
         Debug.Log("Rotasi: " + transform.localEulerAngles);
