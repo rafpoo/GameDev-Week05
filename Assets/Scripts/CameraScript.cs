@@ -7,10 +7,14 @@ public class CameraScript : MonoBehaviour
     GameObject hero;
 
     private float speed = 0f;
+    private float currentPitch;
+    private float currentYaw;
     // Start is called before the first frame update
     void Start()
     {
         hero = GameObject.Find("hero");
+        currentPitch = 0f;
+        currentYaw = 0f;
 
         transform.rotation = hero.transform.rotation;
 
@@ -30,9 +34,23 @@ public class CameraScript : MonoBehaviour
 
     private void MoveCamByMouse()
     {
-        transform.RotateAround(hero.transform.position, Vector3.up, Input.GetAxis("Mouse X") * 4f);
-        transform.RotateAround(hero.transform.position, Vector3.left, Input.GetAxis("Mouse Y") * 4f);
+        // identifikasi input mouse
+        float rotationY = Input.GetAxis("Mouse Y");
+        float rotationX = Input.GetAxis("Mouse X");
+        currentPitch -= rotationY * 4f;
+        currentYaw += rotationX * 4f;
+
+        currentPitch = Mathf.Clamp(currentPitch, 0f, 70f);
+
+        Quaternion rotation = Quaternion.Euler(currentPitch, currentYaw, 0f);
+        Vector3 offset = rotation * new Vector3(0, 0, -2f);
+
+
+
+        transform.position = hero.transform.position + offset;
         transform.LookAt(hero.transform);
+
+
         Debug.Log("Rotasi: " + transform.localEulerAngles);
     }
 
